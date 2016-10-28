@@ -7186,6 +7186,7 @@ void process_next_command() {
 
       case 40: //M40 bed change S[travel] [OLD]
       {
+          endstops.enable(true);
           stepper.synchronize();  
 
           float travel=340;
@@ -7242,6 +7243,7 @@ void process_next_command() {
           WRITE(ABC_ENABLE_PIN,HIGH);
 
           do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS]-5, HOMING_FEEDRATE_Z);
+          endstops.enable(false);
       }
       break;
 
