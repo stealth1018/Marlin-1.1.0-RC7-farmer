@@ -7184,6 +7184,79 @@ void process_next_command() {
         gcode_M31();
         break;
 
+      case 40: //M40 bed change S[travel] [OLD]
+      {
+          stepper.synchronize();  
+
+          float travel=340;
+          float spu=800;
+          float step=8000;
+
+          pinMode(ABC_ENABLE_PIN,OUTPUT);
+          pinMode(ABC_STEP_PIN,OUTPUT);
+          pinMode(ABC_DIR_PIN,OUTPUT);
+          pinMode(ABC_ST,INPUT);
+          pinMode(Z_MAX_PIN,INPUT);
+
+          WRITE(ABC_ENABLE_PIN,LOW);        
+          WRITE(ABC_ST,HIGH);
+          WRITE(Z_MAX_PIN,HIGH);
+
+          WRITE(Z_ENABLE_PIN,LOW);
+          WRITE(Z_DIR_PIN,LOW);
+/*
+          while(READ(Z_MAX_PIN)==LOW)
+          {
+            WRITE(Z_STEP_PIN, HIGH); 
+            delayMicroseconds(50);               
+            WRITE(Z_STEP_PIN, LOW);
+            delayMicroseconds(50);            
+          }
+*/
+          WRITE(ABC_DIR_PIN,LOW);
+          while(READ(ABC_ST)==LOW)
+          {
+            WRITE(ABC_STEP_PIN, HIGH);   
+            delayMicroseconds(50);               
+            WRITE(ABC_STEP_PIN, LOW);  
+            delayMicroseconds(50);            
+          }
+
+          WRITE(ABC_DIR_PIN,HIGH);
+
+          for (float i = 0; i < 298400; ++i)
+          {
+            WRITE(ABC_STEP_PIN, HIGH);   
+            delayMicroseconds(50);               
+            WRITE(ABC_STEP_PIN, LOW);  
+            delayMicroseconds(50);    
+          }
+
+          WRITE(ABC_DIR_PIN,LOW);
+          while(READ(ABC_ST)==LOW)
+          {
+            WRITE(ABC_STEP_PIN, HIGH);   
+            delayMicroseconds(50);               
+            WRITE(ABC_STEP_PIN, LOW);  
+            delayMicroseconds(50);            
+          }
+
+          WRITE(ABC_ENABLE_PIN,HIGH);
+
+          do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS]-5, HOMING_FEEDRATE_Z);
+      }
+      break;
+
+      case 41: //M41 z position at bed change
+      {
+          stepper.synchronize();
+
+          endstops.enable_globally(true);
+          do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS]+450, HOMING_FEEDRATE_Z);
+          endstops.enable_globally(false);
+      }
+      break;
+
       case 42: //M42 -Change pin status via gcode
         gcode_M42();
         break;
