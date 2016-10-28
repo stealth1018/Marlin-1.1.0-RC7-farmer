@@ -7196,15 +7196,13 @@ void process_next_command() {
           pinMode(ABC_STEP_PIN,OUTPUT);
           pinMode(ABC_DIR_PIN,OUTPUT);
           pinMode(ABC_ST,INPUT);
-          pinMode(Z_MAX_PIN,INPUT);
 
           WRITE(ABC_ENABLE_PIN,LOW);        
           WRITE(ABC_ST,HIGH);
-          WRITE(Z_MAX_PIN,HIGH);
 
           WRITE(Z_ENABLE_PIN,LOW);
           WRITE(Z_DIR_PIN,LOW);
-/*
+
           while(READ(Z_MAX_PIN)==LOW)
           {
             WRITE(Z_STEP_PIN, HIGH); 
@@ -7212,7 +7210,7 @@ void process_next_command() {
             WRITE(Z_STEP_PIN, LOW);
             delayMicroseconds(50);            
           }
-*/
+
           WRITE(ABC_DIR_PIN,LOW);
           while(READ(ABC_ST)==LOW)
           {
@@ -7249,11 +7247,16 @@ void process_next_command() {
 
       case 41: //M41 z position at bed change
       {
-          stepper.synchronize();
-
-          endstops.enable_globally(true);
-          do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS]+450, HOMING_FEEDRATE_Z);
-          endstops.enable_globally(false);
+          WRITE(Z_ENABLE_PIN,LOW);
+          WRITE(Z_DIR_PIN,LOW);
+          
+          while(READ(Z_MAX_PIN)==LOW)
+          {
+            WRITE(Z_STEP_PIN, HIGH); 
+            delayMicroseconds(50);               
+            WRITE(Z_STEP_PIN, LOW);
+            delayMicroseconds(50);            
+          }
       }
       break;
 
