@@ -3188,10 +3188,15 @@ inline void gcode_G28() {
     if (DEBUGGING(LEVELING)) SERIAL_ECHOLNPGM("<<< gcode_G28");
   #endif
 
+  do_blocking_move_to_xy(X_MIN_POS,Y_MAX_POS);
+  do_blocking_move_to_z(0);
+
   // Restore the active tool after homing
   #if HOTENDS > 1
     tool_change(old_tool_index, 0, true);
   #endif
+    
+  feedrate_mm_m = HOMING_FEEDRATE_XY;
 
   report_current_position();
 }

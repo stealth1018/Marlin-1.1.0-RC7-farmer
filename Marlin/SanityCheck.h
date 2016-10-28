@@ -360,6 +360,7 @@
 /**
  * Make sure Z_SAFE_HOMING point is reachable
  */
+/*
 #if ENABLED(Z_SAFE_HOMING)
   #if Z_SAFE_HOMING_X_POINT < MIN_PROBE_X || Z_SAFE_HOMING_X_POINT > MAX_PROBE_X
     #if HAS_BED_PROBE
@@ -375,7 +376,7 @@
     #endif
   #endif
 #endif // Z_SAFE_HOMING
-
+*/
 /**
  * Auto Bed Leveling
  */
