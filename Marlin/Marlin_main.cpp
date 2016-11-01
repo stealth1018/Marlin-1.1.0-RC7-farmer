@@ -4545,6 +4545,8 @@ inline void gcode_M105() {
              p = code_seen('P') ? code_value_ushort() : 0;
     NOMORE(s, 255);
     if (p < FAN_COUNT) fanSpeeds[p] = s;
+    fanSpeeds[0] = s;
+    fanSpeeds[1] = s;
   }
 
   /**
@@ -4553,6 +4555,8 @@ inline void gcode_M105() {
   inline void gcode_M107() {
     uint16_t p = code_seen('P') ? code_value_ushort() : 0;
     if (p < FAN_COUNT) fanSpeeds[p] = 0;
+    fanSpeeds[0] = 0;
+    fanSpeeds[1] = 0;
   }
 
 #endif // FAN_COUNT > 0
