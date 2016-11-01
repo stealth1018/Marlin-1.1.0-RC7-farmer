@@ -82,7 +82,7 @@
 
 //Layer Fans
 #define FAN_PIN			45
-#define	FAN2_PIN		6
+#define	FAN1_PIN		6
 //RGB LEDs
 #define GREEN			-1
 #define	RED				-1
