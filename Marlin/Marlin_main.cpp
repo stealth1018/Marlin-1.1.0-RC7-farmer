@@ -6710,6 +6710,7 @@ void tool_change(const uint8_t tmp_extruder, const float fr_mm_m/*=0.0*/, bool n
                 SERIAL_ECHOPAIR("Lower to ", current_position[Z_AXIS]); SERIAL_EOL;
               }
             #endif
+            /*
             // Park old head: 1) raise 2) move to park position 3) lower
             for (uint8_t i = 0; i < 3; i++)
               planner.buffer_line(
@@ -6721,6 +6722,10 @@ void tool_change(const uint8_t tmp_extruder, const float fr_mm_m/*=0.0*/, bool n
                 active_extruder
               );
             stepper.synchronize();
+            */
+            do_blocking_move_to_z(current_position[Z_AXIS] + TOOLCHANGE_PARK_ZLIFT);
+            do_blocking_move_to_xy(current_position[X_AXIS],0);
+            do_blocking_move_to_xy(x_home_pos(active_extruder),current_position[Y_AXIS]);
           }
 
           // apply Y & Z extruder offset (x offset is already used in determining home pos)
