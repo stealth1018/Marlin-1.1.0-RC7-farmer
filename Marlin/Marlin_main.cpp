@@ -7210,16 +7210,8 @@ void process_next_command() {
           WRITE(ABC_ENABLE_PIN,LOW);        
           WRITE(ABC_ST,HIGH);
 
-          WRITE(Z_ENABLE_PIN,LOW);
-          WRITE(Z_DIR_PIN,LOW);
-
-          while(READ(Z_MAX_PIN)==LOW)
-          {
-            WRITE(Z_STEP_PIN, HIGH); 
-            delayMicroseconds(50);               
-            WRITE(Z_STEP_PIN, LOW);
-            delayMicroseconds(50);            
-          }
+          do_blocking_move_to_z(current_position[Z_AXIS]+450);
+          current_position[Z_AXIS]=450;
 
           WRITE(ABC_DIR_PIN,LOW);
           while(READ(ABC_ST)==LOW)
@@ -7251,13 +7243,14 @@ void process_next_command() {
 
           WRITE(ABC_ENABLE_PIN,HIGH);
 
-          do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS]-5, HOMING_FEEDRATE_Z);
+          do_blocking_move_to_z(current_position[Z_AXIS]+445);
           endstops.enable(false);
       }
       break;
 
       case 41: //M41 z position at bed change
       {
+          /*
           WRITE(Z_ENABLE_PIN,LOW);
           WRITE(Z_DIR_PIN,LOW);
           
@@ -7268,6 +7261,12 @@ void process_next_command() {
             WRITE(Z_STEP_PIN, LOW);
             delayMicroseconds(50);            
           }
+          */
+          current_position[Z_AXIS]=0;
+          endstops.enable_globally(true);
+          do_blocking_move_to_z(450);
+          endstops.enable_globally(false);
+          current_position[Z_AXIS]=450;
       }
       break;
 
