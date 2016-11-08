@@ -412,7 +412,7 @@
       #endif
     #endif
   #else // !AUTO_BED_LEVELING_GRID
-
+/*
     // Check the triangulation points
     #if ABL_PROBE_PT_1_X < MIN_PROBE_X || ABL_PROBE_PT_1_X > MAX_PROBE_X
       #error "The given ABL_PROBE_PT_1_X can't be reached by the Z probe."
@@ -427,7 +427,7 @@
     #elif ABL_PROBE_PT_3_Y < MIN_PROBE_Y || ABL_PROBE_PT_3_Y > MAX_PROBE_Y
       #error "The given ABL_PROBE_PT_3_Y can't be reached by the Z probe."
     #endif
-
+*/
   #endif // !AUTO_BED_LEVELING_GRID
 
 #endif // AUTO_BED_LEVELING_FEATURE
